@@ -26,3 +26,5 @@ compared to a sequential multiplication and will be timed to see the performance
 
 The matrix multiplication will be done by separating the martrix in 4 parts and each part will be calculated by a
 thread.
+
+![Threaded_schema](https://user-images.githubusercontent.com/75916953/235661801-cc16f359-9018-46da-87d0-aa9f25e596c7.png)
