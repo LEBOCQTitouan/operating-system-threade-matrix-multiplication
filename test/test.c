@@ -4,41 +4,14 @@
 
 #include "test.h"
 
-void test_non_threaded(matrix_t matrix_a, matrix_t matrix_b) {
+test_return_data chronometer(matrix_t (tested_function)(matrix_t, matrix_t), matrix_t matrix_a, matrix_t matrix_b) {
     clock_t start, end;
-    matrix_t result;
-
-    printf("Multipling matrixes (non threaded) \n");
-    printf("\n");
+    test_return_data result = {0};
 
     start = clock();
-    result = multiply_matrix(matrix_a, matrix_b);
+    result.result = tested_function(matrix_a, matrix_b);
     end = clock();
+    result.execution_time = end - start;
 
-    if (matrix_a.rows < 10) {
-        printf("Matrix C:\n");
-        print_matrix(result);
-    }
-
-    printf("ended in %f seconds\n", (double)(end - start) / CLOCKS_PER_SEC);
-    printf("\n");
-}
-
-void test_threaded(matrix_t matrix_a, matrix_t matrix_b) {
-    clock_t start, end;
-    matrix_t result;
-
-    printf("Multipling matrixes (threaded) \n");
-    printf("\n");
-
-    start = clock();
-    result = multiply_matrix_threaded(matrix_a, matrix_b);
-    end = clock();
-
-    if (matrix_a.rows < 10) {
-        printf("Matrix D:\n");
-        print_matrix(result);
-    }
-
-    printf("ended in %f seconds\n", (double)(end - start) / CLOCKS_PER_SEC);
+    return result;
 }

@@ -7,7 +7,18 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
+#include <errno.h>
+#include <math.h>
 #include <pthread.h>
+
+#if defined(__APPLE__)
+#include <sys/sysctl.h>
+#elif defined(__linux__)
+#include <unistd.h>
+#elif defined(_WIN32)
+#include <Windows.h>
+#endif
 
 /**
  * Matrix structure
@@ -22,17 +33,8 @@ typedef struct {
  * Matrix multiplication arguments structure for threads
  */
 typedef struct {
-    int start_row;  // start row index
-    int end_row;    // end row index
-    int start_col;  // start column index
-    int end_col;    // end column index
-} pos_args_t;
-
-/**
- * Matrix multiplication arguments structure for threads
- */
-typedef struct {
-    pos_args_t positional_args; // the processing arguments for the thread
+    int start_index;
+    int end_index;
     matrix_t matrix_a;          //
     matrix_t matrix_b;          //
     matrix_t *result;           // the result matrix
@@ -91,5 +93,9 @@ matrix_t multiply_matrix_threaded(matrix_t matrix_a, matrix_t matrix_b);
  * @param matrix the matrix to print
  */
 void print_matrix(matrix_t matrix);
+
+bool are_equal(matrix_t matrix_a, matrix_t matrix_b);
+
+int get_number_of_procs();
 
 #endif //OPERATING_SYSTEM_THREADED_MATRIX_MULTIPLICATION_MATRIX_H
