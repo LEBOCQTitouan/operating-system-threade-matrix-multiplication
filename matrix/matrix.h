@@ -35,8 +35,8 @@ typedef struct {
 typedef struct {
     int start_index;
     int end_index;
-    matrix_t matrix_a;          //
-    matrix_t matrix_b;          //
+    matrix_t *matrix_a;          //
+    matrix_t *matrix_b;          //
     matrix_t *result;           // the result matrix
 } thread_args_t;
 

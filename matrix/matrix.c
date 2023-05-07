@@ -7,14 +7,14 @@
 void *thread_multiplication_routine(void *args) {
     thread_args_t *thread_data_holder = (thread_args_t *) args;
     // extracting data from thread args
-    matrix_t matrix_a = thread_data_holder->matrix_a;
-    matrix_t matrix_b = thread_data_holder->matrix_b;
+    matrix_t *matrix_a = thread_data_holder->matrix_a;
+    matrix_t *matrix_b = thread_data_holder->matrix_b;
     matrix_t *result = thread_data_holder->result;
 
     for (int row_a = thread_data_holder->start_index; row_a < thread_data_holder->end_index + 1; ++row_a) {
-        for (int col_b = 0; col_b < matrix_b.cols; ++col_b) {
-            for (int col_a = 0; col_a < matrix_a.cols; ++col_a) {
-                result->data[row_a][col_b] += matrix_a.data[row_a][col_a] * matrix_b.data[col_a][col_b];
+        for (int col_b = 0; col_b < matrix_b->cols; ++col_b) {
+            for (int col_a = 0; col_a < matrix_a->cols; ++col_a) {
+                result->data[row_a][col_b] += matrix_a->data[row_a][col_a] * matrix_b->data[col_a][col_b];
             }
         }
     }
@@ -43,8 +43,8 @@ matrix_t multiply_matrix_threaded(matrix_t matrix_a, matrix_t matrix_b) {
     int step_cache = matrix_a.rows / number_proc_used;
     int overfitted_rows = matrix_a.rows % number_proc_used;
     for (int i = 0; i < number_proc_used; ++i) {
-        args[i].matrix_a = matrix_a;
-        args[i].matrix_b = matrix_b;
+        args[i].matrix_a = &matrix_a;
+        args[i].matrix_b = &matrix_b;
         args[i].result = &result;
 
         args[i].start_index = 0;

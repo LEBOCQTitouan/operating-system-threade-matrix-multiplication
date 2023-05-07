@@ -26,3 +26,6 @@ compared to a sequential multiplication and will be timed to see the performance
 
 The matrix multiplication will be done by separating the matrix in rows batch. Each row batch will later on be processed by
 separated threads.
+
+The number of threads will be dynamicallly allocated depending on the number of rows and the number of core available
+on the computer (stable version only on apple).
